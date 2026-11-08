@@ -1024,6 +1024,8 @@ func (handler *WorkflowTaskCompletedHandler) withNewWorkflowTask(
 		response.GetStartedEventId(),
 		response.GetStartedTime(),
 		response.GetAttempt(),
+		// The stored started clock, nil unless EnableWorkflowTaskStartedClock. When set, the shard clock
+		// consistency check runs when this token comes back, as it does for tokens from a Matching poll.
 		response.GetClock(),
 		response.GetVersion(),
 	)
