@@ -1,6 +1,7 @@
 package workflow
 
 import (
+	"context"
 	"strconv"
 	"testing"
 
@@ -209,11 +210,12 @@ func TestHandleWorkflowHeartbeatNotification(t *testing.T) {
 			}
 			shard := historyi.NewMockShardContext(controller)
 			if tc.firstType != "" {
+				mutableState.EXPECT().GetStartedWorkflowTask().Return(nil)
 				shard.EXPECT().GetConfig().Return(&configs.Config{
 					WorkflowHeartbeatNotificationRolloutPercent: func(string) int { return 0 },
 				})
 			}
-			workflowContext.handleWorkflowHeartbeatNotification(shard, newEvents)
+			workflowContext.handleWorkflowHeartbeatNotification(context.Background(), shard, newEvents)
 
 			buffered := capture.SnapshotMetric(metrics.WorkflowHeartbeatNotificationBufferedInput.Name())
 			require.Len(t, buffered, len(tc.bufferedTypes))
