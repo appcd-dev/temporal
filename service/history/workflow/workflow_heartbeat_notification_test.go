@@ -305,9 +305,6 @@ func TestHandleWorkflowHeartbeatNotification(t *testing.T) {
 			shard := historyi.NewMockShardContext(controller)
 			if tc.firstType != "" {
 				mutableState.EXPECT().GetStartedWorkflowTask().Return(nil)
-				shard.EXPECT().GetConfig().Return(&configs.Config{
-					WorkflowHeartbeatNotificationRolloutPercent: func(string) int { return 0 },
-				})
 			}
 			workflowContext.handleWorkflowHeartbeatNotification(context.Background(), shard, newEvents)
 
