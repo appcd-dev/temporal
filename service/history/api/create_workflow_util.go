@@ -134,15 +134,15 @@ func NewWorkflowWithSignal(
 			// Unable to add WorkflowTaskStarted event to history
 			return nil, err
 		}
-		if startRequest.StartRequest.GetCapabilities().GetSupportsWorkflowHeartbeatNotification() &&
-			startRequest.StartRequest.GetWorkerControlTaskQueue() != "" {
+		if startRequest.StartRequest.GetEagerWorkerCapabilities().GetSupportsWorkflowHeartbeatNotification() &&
+			startRequest.StartRequest.GetEagerWorkerControlTaskQueue() != "" {
 			startedClock, err := shard.NewVectorClock()
 			if err != nil {
 				return nil, err
 			}
 			newMutableState.SetWorkflowTaskStartedClock(startedClock)
 			workflowTask.StartedClock = startedClock
-			newMutableState.SetWorkflowTaskWorkerControlTaskQueue(startRequest.StartRequest.GetWorkerControlTaskQueue())
+			newMutableState.SetWorkflowTaskWorkerControlTaskQueue(startRequest.StartRequest.GetEagerWorkerControlTaskQueue())
 		}
 	}
 
